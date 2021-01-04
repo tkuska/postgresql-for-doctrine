@@ -23,6 +23,13 @@ class DataStructure
             $indicatesMultipleDimensions = \mb_strpos($textArrayToTransform, '},{') !== false
                 || \mb_strpos($textArrayToTransform, '{{') === 0;
             if ($indicatesMultipleDimensions) {
+                $textArrayToTransform = trim($textArrayToTransform, '{{}}');
+                $phpArrays = explode('},{', $textArrayToTransform);
+                $result = [];
+                foreach($phpArrays as $i => $value){
+                    $result[] = explode(',', $value);
+                }
+                return $result;
                 throw new \InvalidArgumentException('Only single-dimensioned arrays are supported');
             }
 
@@ -50,7 +57,6 @@ class DataStructure
 
                 $phpArray[$i] = \str_replace('\"', '"', $text);
             }
-
             return $phpArray;
         };
 
